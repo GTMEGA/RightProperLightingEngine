@@ -21,7 +21,6 @@ import com.falsepattern.rple.internal.common.chunk.RPLESubChunkRoot;
 import lombok.val;
 import lombok.var;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -236,13 +235,16 @@ public final class RPLEWorldContainer implements RPLEWorld {
     @Override
     @SuppressWarnings("CastToIncompatibleInterface")
     public int lumi$getBlockBrightness(@NotNull Block blockBase, int blockMeta, int posX, int posY, int posZ) {
-        if (blockBase.getMaterial() == Material.air)
+        val block = (RPLEBlock) blockBase;
+        if (!block.rple$hasBrightness())
             return 0;
+
+//        if (blockBase.getMaterial() == Material.air)
+//            return 0;
 
 //        val i = BRIGHTNESS_CHECKS.get(blockBase) + 1;
 //        BRIGHTNESS_CHECKS.put(blockBase, i);
 
-        val block = (RPLEBlock) blockBase;
         val brightness = block.rple$getBrightnessColor(base, blockMeta, posX, posY, posZ);
         return channel.componentFromColor(brightness);
     }
@@ -250,13 +252,16 @@ public final class RPLEWorldContainer implements RPLEWorld {
     @Override
     @SuppressWarnings("CastToIncompatibleInterface")
     public int lumi$getBlockOpacity(@NotNull Block blockBase, int blockMeta, int posX, int posY, int posZ) {
-        if (blockBase.getMaterial() == Material.air)
+        val block = (RPLEBlock) blockBase;
+        if (!block.rple$hasTranslucency())
             return 15;
+
+        //        if (blockBase.getMaterial() == Material.air)
+//            return 15;
 
 //        val i = OPACITY_CHECKS.get(blockBase) + 1;
 //        OPACITY_CHECKS.put(blockBase, i);
 
-        val block = (RPLEBlock) blockBase;
         val translucency = block.rple$getTranslucencyColor(base, blockMeta, posX, posY, posZ);
         return invertColorComponent(channel.componentFromColor(translucency));
     }

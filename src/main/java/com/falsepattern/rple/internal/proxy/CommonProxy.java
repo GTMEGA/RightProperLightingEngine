@@ -10,11 +10,13 @@ package com.falsepattern.rple.internal.proxy;
 import com.falsepattern.rple.internal.Tags;
 import com.falsepattern.rple.internal.common.block.LampBlock;
 import com.falsepattern.rple.internal.common.block.LampItemBlock;
+import com.falsepattern.rple.internal.common.block.RPLEBlockInit;
 import com.falsepattern.rple.internal.common.config.ColorConfigLoader;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import lombok.NoArgsConstructor;
 import lombok.val;
+import net.minecraft.block.Block;
 
 import static com.falsepattern.rple.internal.common.block.BlockColorManager.blockColorManager;
 import static com.falsepattern.rple.internal.common.event.LumiEventHandler.lumiEventHandler;
@@ -51,6 +53,14 @@ public abstract class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent evt) {
+        val blocks = (Iterable<Block>) Block.blockRegistry;
+        for (val blockBase : blocks) {
+            if (!(blockBase instanceof RPLEBlockInit))
+                continue;
+            val blockInit = (RPLEBlockInit) blockBase;
+            blockInit.rple$hasBrightness(blockBase.getLightValue() > 0);
+            blockInit.rple$hasTranslucency(!blockBase.isOpaqueCube() || blockBase.getLightOpacity() < 15);
+        }
     }
 
     public void serverAboutToStart(FMLServerAboutToStartEvent evt) {
