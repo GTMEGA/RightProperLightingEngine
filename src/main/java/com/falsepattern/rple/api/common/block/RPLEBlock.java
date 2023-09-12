@@ -24,6 +24,10 @@ import org.jetbrains.annotations.Nullable;
  * @see RPLEBlockTranslucencyColorProvider
  */
 public interface RPLEBlock {
+    boolean rple$hasBrightness();
+
+    boolean rple$hasTranslucency();
+
     @NotNull RPLEColor rple$getBrightnessColor();
 
     @NotNull RPLEColor rple$getBrightnessColor(int blockMeta);

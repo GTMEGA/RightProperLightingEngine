@@ -11,11 +11,15 @@ import com.falsepattern.rple.api.common.color.RPLEColor;
 import org.jetbrains.annotations.Nullable;
 
 public interface RPLEBlockInit {
+    void rple$hasBrightness(boolean hasBrightness);
+
+    void rple$hasTranslucency(boolean hasTranslucency);
+
     void rple$initBaseBrightnessColor(@Nullable RPLEColor baseColoredBrightness);
 
-    void rple$initBaseTranslucencyColor(@Nullable RPLEColor baseColoredTranslucency);
-
     void rple$initMetaBrightnessColors(@Nullable RPLEColor @Nullable [] metaColoredBrightness);
+
+    void rple$initBaseTranslucencyColor(@Nullable RPLEColor baseColoredTranslucency);
 
     void rple$initMetaTranslucencyColors(@Nullable RPLEColor @Nullable [] metaColoredTranslucency);
 }

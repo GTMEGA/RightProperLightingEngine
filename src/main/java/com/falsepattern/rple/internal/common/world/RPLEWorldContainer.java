@@ -21,7 +21,7 @@ import com.falsepattern.rple.internal.common.chunk.RPLESubChunkRoot;
 import lombok.val;
 import lombok.var;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -236,7 +236,7 @@ public final class RPLEWorldContainer implements RPLEWorld {
     @Override
     @SuppressWarnings("CastToIncompatibleInterface")
     public int lumi$getBlockBrightness(@NotNull Block blockBase, int blockMeta, int posX, int posY, int posZ) {
-        if (blockBase == Blocks.air)
+        if (blockBase.getMaterial() == Material.air)
             return 0;
 
 //        val i = BRIGHTNESS_CHECKS.get(blockBase) + 1;
@@ -250,7 +250,7 @@ public final class RPLEWorldContainer implements RPLEWorld {
     @Override
     @SuppressWarnings("CastToIncompatibleInterface")
     public int lumi$getBlockOpacity(@NotNull Block blockBase, int blockMeta, int posX, int posY, int posZ) {
-        if (blockBase.isOpaqueCube())
+        if (blockBase.getMaterial() == Material.air)
             return 15;
 
 //        val i = OPACITY_CHECKS.get(blockBase) + 1;

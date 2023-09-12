@@ -33,6 +33,9 @@ public abstract class RPLEBlockInitImplMixin implements RPLEBlockInit {
     @Nullable
     private RPLEColor @Nullable [] rple$metaTranslucencyColors;
 
+    private boolean rple$hasBrightness;
+    private boolean rple$hasTranslucency;
+
     protected ThreadLocal<Boolean> rple$passInternalLightValue;
     protected ThreadLocal<Boolean> rple$passInternalLightOpacity;
 
@@ -45,8 +48,21 @@ public abstract class RPLEBlockInitImplMixin implements RPLEBlockInit {
         this.rple$metaBrightnessColors = null;
         this.rple$metaTranslucencyColors = null;
 
+        this.rple$hasBrightness = true;
+        this.rple$hasTranslucency = true;
+
         this.rple$passInternalLightValue = ThreadLocal.withInitial(() -> false);
         this.rple$passInternalLightOpacity = ThreadLocal.withInitial(() -> false);
+    }
+
+    @Override
+    public void rple$hasBrightness(boolean hasBrightness) {
+        rple$hasBrightness = hasBrightness;
+    }
+
+    @Override
+    public void rple$hasTranslucency(boolean hasTranslucency) {
+        rple$hasTranslucency = hasTranslucency;
     }
 
     @Override
@@ -55,13 +71,13 @@ public abstract class RPLEBlockInitImplMixin implements RPLEBlockInit {
     }
 
     @Override
-    public void rple$initBaseTranslucencyColor(@Nullable RPLEColor baseColoredTranslucency) {
-        rple$baseTranslucencyColor = baseColoredTranslucency;
+    public void rple$initMetaBrightnessColors(@Nullable RPLEColor @Nullable [] metaColoredBrightness) {
+        rple$metaBrightnessColors = metaColoredBrightness;
     }
 
     @Override
-    public void rple$initMetaBrightnessColors(@Nullable RPLEColor @Nullable [] metaColoredBrightness) {
-        rple$metaBrightnessColors = metaColoredBrightness;
+    public void rple$initBaseTranslucencyColor(@Nullable RPLEColor baseColoredTranslucency) {
+        rple$baseTranslucencyColor = baseColoredTranslucency;
     }
 
     @Override

@@ -43,8 +43,8 @@ public final class ColoredBlockedReference {
 
     public void apply() {
         block.rple$initBaseBrightnessColor(baseBrightnessColor);
-        block.rple$initBaseTranslucencyColor(baseTranslucencyColor);
         block.rple$initMetaBrightnessColors(metaColorsArrayFromMap(metaBrightnessColorsMap));
+        block.rple$initBaseTranslucencyColor(baseTranslucencyColor);
         block.rple$initMetaTranslucencyColors(metaColorsArrayFromMap(metaTranslucencyColorsMap));
     }
 

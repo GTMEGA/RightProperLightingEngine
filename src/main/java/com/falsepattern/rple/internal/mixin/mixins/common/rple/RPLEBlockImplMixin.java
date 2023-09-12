@@ -39,6 +39,11 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Dynamic("Initialized in: [com.falsepattern.rple.internal.mixin.mixins.common.rple.RPLEBlockInitImplMixin]")
     private RPLEColor @Nullable [] rple$metaTranslucencyColors;
 
+    @Dynamic("Initialized in: [com.falsepattern.rple.internal.mixin.mixins.common.rple.RPLEBlockInitImplMixin]")
+    private boolean rple$hasBrightness;
+    @Dynamic("Initialized in: [com.falsepattern.rple.internal.mixin.mixins.common.rple.RPLEBlockInitImplMixin]")
+    private boolean rple$hasTranslucency;
+
     @Shadow(remap = false)
     @Dynamic("Implemented by: [com.falsepattern.rple.internal.mixin.mixins.common.rple.RPLEBlockRootImplMixin]")
     public abstract RPLEColor rple$getInternalColoredBrightness();
@@ -58,12 +63,22 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Shadow
     public abstract boolean hasTileEntity(int metadata);
 
-    @Shadow
-    public abstract boolean isOpaqueCube();
+    @Override
+    public boolean rple$hasBrightness() {
+        return rple$hasBrightness;
+    }
+
+    @Override
+    public boolean rple$hasTranslucency() {
+        return rple$hasTranslucency;
+    }
 
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getBrightnessColor() {
+        if (!rple$hasBrightness)
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockBrightnessColorProvider) {
             val colorProvider = (RPLEBlockBrightnessColorProvider) this;
             try {
@@ -79,6 +94,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getBrightnessColor(int blockMeta) {
+        if (!rple$hasBrightness)
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockBrightnessColorProvider) {
             val colorProvider = (RPLEBlockBrightnessColorProvider) this;
             try {
@@ -98,6 +116,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
                                                       int posX,
                                                       int posY,
                                                       int posZ) {
+        if (!rple$hasBrightness)
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockBrightnessColorProvider) {
             val colorProvider = (RPLEBlockBrightnessColorProvider) this;
             try {
@@ -125,7 +146,7 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getTranslucencyColor() {
-        if (isOpaqueCube())
+        if (!rple$hasTranslucency)
             return LightValueColor.LIGHT_VALUE_0;
 
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
@@ -143,7 +164,7 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getTranslucencyColor(int blockMeta) {
-        if (isOpaqueCube())
+        if (!rple$hasTranslucency)
             return LightValueColor.LIGHT_VALUE_0;
 
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
@@ -165,7 +186,7 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
                                                         int posX,
                                                         int posY,
                                                         int posZ) {
-        if (isOpaqueCube())
+        if (!rple$hasTranslucency)
             return LightValueColor.LIGHT_VALUE_0;
 
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
@@ -223,7 +244,6 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
             return color;
         return rple$getInternalColoredTranslucency();
     }
-
 
     @Override
     public @NotNull RPLEColor rple$getFallbackTranslucencyColor(int blockMeta) {
