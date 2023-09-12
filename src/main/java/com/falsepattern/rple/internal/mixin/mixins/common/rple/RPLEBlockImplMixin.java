@@ -10,6 +10,7 @@ package com.falsepattern.rple.internal.mixin.mixins.common.rple;
 import com.falsepattern.rple.api.common.block.RPLEBlock;
 import com.falsepattern.rple.api.common.block.RPLEBlockBrightnessColorProvider;
 import com.falsepattern.rple.api.common.block.RPLEBlockTranslucencyColorProvider;
+import com.falsepattern.rple.api.common.color.LightValueColor;
 import com.falsepattern.rple.api.common.color.RPLEColor;
 import lombok.val;
 import net.minecraft.block.Block;
@@ -56,6 +57,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
 
     @Shadow
     public abstract boolean hasTileEntity(int metadata);
+
+    @Shadow
+    public abstract boolean isOpaqueCube();
 
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
@@ -121,6 +125,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getTranslucencyColor() {
+        if (isOpaqueCube())
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
             val colorProvider = (RPLEBlockTranslucencyColorProvider) this;
             try {
@@ -136,6 +143,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
     @Override
     @SuppressWarnings({"InstanceofThis", "InstanceofIncompatibleInterface", "ConstantValue"})
     public @NotNull RPLEColor rple$getTranslucencyColor(int blockMeta) {
+        if (isOpaqueCube())
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
             val colorProvider = (RPLEBlockTranslucencyColorProvider) this;
             try {
@@ -155,6 +165,9 @@ public abstract class RPLEBlockImplMixin implements RPLEBlock {
                                                         int posX,
                                                         int posY,
                                                         int posZ) {
+        if (isOpaqueCube())
+            return LightValueColor.LIGHT_VALUE_0;
+
         if (this instanceof RPLEBlockTranslucencyColorProvider) {
             val colorProvider = (RPLEBlockTranslucencyColorProvider) this;
             try {

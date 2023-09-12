@@ -80,6 +80,9 @@ public final class ColoredLightingHooks {
     }
 
     public static int getLightOpacity(Block block) {
+        if (block.isOpaqueCube())
+            return 15;
+
         val rpleBlock = (RPLEBlock) block;
         val color = rpleBlock.rple$getTranslucencyColor();
         return lightOpacityFromColor(color);
@@ -90,6 +93,9 @@ public final class ColoredLightingHooks {
                                       int posX,
                                       int posY,
                                       int posZ) {
+        if (block.isOpaqueCube())
+            return 15;
+
         val rpleBlock = (RPLEBlock) block;
         val blockMeta = world.getBlockMetadata(posX, posY, posZ);
         val color = rpleBlock.rple$getTranslucencyColor(world, blockMeta, posX, posY, posZ);
